@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="在线图片工具箱联系我们页面，提交问题反馈、功能建议与合作洽谈。">
+  <title>联系我们｜在线图片工具箱</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --bg-soft: #11182b;
+      --card: rgba(20, 29, 49, 0.88);
+      --card-hover: #1a2540;
+      --text: #f4f7ff;
+      --text-soft: #aab6cc;
+      --text-muted: #7e8aa4;
+      --border: rgba(156, 175, 214, 0.16);
+      --primary: #7c6cff;
+      --primary-light: #9f94ff;
+      --accent: #4fd1c5;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      --radius-lg: 24px;
+      --radius-md: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(124, 108, 255, 0.16), transparent 30%),
+        radial-gradient(circle at 88% 20%, rgba(79, 209, 197, 0.1), transparent 26%),
+        var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.7;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      padding: 26px 0;
+      border-bottom: 1px solid rgba(156, 175, 214, 0.08);
+      background: rgba(11, 16, 32, 0.68);
+      backdrop-filter: blur(14px);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      color: #fff;
+      font-size: 18px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--primary), #4e9eff);
+      box-shadow: 0 8px 20px rgba(124, 108, 255, 0.35);
+    }
+
+    .nav-link {
+      color: var(--text-soft);
+      font-size: 14px;
+      transition: color 0.2s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link:focus-visible {
+      color: var(--text);
+    }
+
+    main {
+      padding: 86px 0 100px;
+    }
+
+    .hero {
+      max-width: 720px;
+      margin-bottom: 54px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 18px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      margin-bottom: 18px;
+      font-size: clamp(36px, 6vw, 64px);
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      max-width: 640px;
+      color: var(--text-soft);
+      font-size: 17px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      padding: 32px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      margin-bottom: 12px;
+      font-size: 22px;
+      line-height: 1.35;
+    }
+
+    .card-intro {
+      margin-bottom: 24px;
+      color: var(--text-soft);
+      font-size: 14px;
+    }
+
+    .email-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      border: 1px solid rgba(124, 108, 255, 0.4);
+      border-radius: var(--radius-md);
+      background: rgba(124, 108, 255, 0.1);
+    }
+
+    .email-box a {
+      overflow-wrap: anywhere;
+      color: var(--primary-light);
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .email-icon {
+      flex: 0 0 auto;
+      color: var(--primary-light);
+      font-size: 20px;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 15px;
+      list-style: none;
+    }
+
+    .contact-list li {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 12px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-soft);
+      font-size: 14px;
+    }
+
+    .contact-list li:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .contact-list strong {
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .notice {
+      margin-top: 22px;
+      padding: 16px 18px;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 12px 12px 0;
+      color: var(--text-soft);
+      font-size: 13px;
+      background: rgba(79, 209, 197, 0.08);
+    }
+
+    .faq-card {
+      margin-top: 24px;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    details {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.025);
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    details:hover,
+    details[open] {
+      border-color: rgba(124, 108, 255, 0.5);
+      background: var(--card-hover);
+    }
+
+    summary {
+      position: relative;
+      padding: 18px 52px 18px 20px;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "+";
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      color: var(--primary-light);
+      font-size: 22px;
+      font-weight: 400;
+      transform: translateY(-52%);
+      transition: transform 0.2s ease;
+    }
+
+    details[open] summary::after {
+      content: "−";
+    }
+
+    .answer {
+      padding: 0 20px 19px;
+      color: var(--text-soft);
+      font-size: 14px;
+    }
+
+    .feedback-card {
+      margin-top: 24px;
+    }
+
+    .feedback-card p {
+      color: var(--text-soft);
+      font-size: 15px;
+    }
+
+    .feedback-card p + p {
+      margin-top: 14px;
+    }
+
+    .feedback-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .step {
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .step-number {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      margin-bottom: 12px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), #4e9eff);
+    }
+
+    .step h3 {
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .step p {
+      color: var(--text-muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    footer {
+      padding: 28px 0 36px;
+      border-top: 1px solid rgba(156, 175, 214, 0.1);
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .back-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--primary-light);
+      font-weight: 600;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .back-home:hover,
+    .back-home:focus-visible {
+      color: #c1baff;
+      transform: translateX(-2px);
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        width: min(100% - 28px, 620px);
+      }
+
+      header {
+        padding: 20px 0;
+      }
+
+      main {
+        padding: 58px 0 70px;
+      }
+
+      .hero {
+        margin-bottom: 36px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .card {
+        padding: 24px 20px;
+        border-radius: 19px;
+      }
+
+      .faq-card,
+      .feedback-card {
+        margin-top: 16px;
+      }
+
+      .feedback-steps {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .footer-inner {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="index.html" aria-label="返回在线图片工具箱首页">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span>在线图片工具箱</span>
+      </a>
+      <a class="nav-link" href="index.html">返回首页</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <section class="hero">
+        <span class="eyebrow">CONTACT US</span>
+        <h1>联系我们</h1>
+        <p>
+          无论是使用过程中遇到问题，还是有新的想法与合作机会，都欢迎告诉我们。
+          你的反馈会帮助我们持续改进在线图片工具箱。
+        </p>
+      </section>
+
+      <div class="grid">
+        <section class="card">
+          <h2>联系邮箱</h2>
+          <p class="card-intro">请选择合适的主题发送邮件，我们会尽快查看并回复。</p>
+          <div class="email-box">
+            <span class="email-icon" aria-hidden="true">✉</span>
+            <a href="mailto:【你的联系邮箱】">【你的联系邮箱】</a>
+          </div>
+          <div class="notice">
+            建议在邮件标题中注明「Bug 反馈」「功能建议」或「合作洽谈」，方便我们快速处理。
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>反馈说明</h2>
+          <p class="card-intro">不同类型的内容可以通过以下方式联系我们：</p>
+          <ul class="contact-list">
+            <li>
+              <strong>遇到 Bug</strong>
+              <span>请发送邮件，并附上操作步骤、出现的提示信息，以及相关截图或示例文件。</span>
+            </li>
+            <li>
+              <strong>功能建议</strong>
+              <span>请描述你希望解决的问题、使用场景和理想效果，具体案例会更有帮助。</span>
+            </li>
+            <li>
+              <strong>合作洽谈</strong>
+              <span>请通过邮箱联系，并简单介绍合作方向、团队或公司信息及联系方式。</span>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="card faq-card">
+        <h2>常见问题</h2>
+        <p class="card-intro">这里整理了使用在线图片工具箱时最常见的疑问。</p>
+
+        <div class="faq-list">
+          <details>
+            <summary>支持哪些图片格式？</summary>
+            <div class="answer">
+              目前通常支持 JPG、JPEG、PNG、WebP、GIF、BMP、SVG 等常见格式。不同工具的支持范围可能略有差异，请以具体工具页面的提示为准。
+            </div>
+          </details>
+
+          <details>
+            <summary>上传的图片有大小限制吗？</summary>
+            <div class="answer">
+              为保证处理速度和服务稳定性，单张图片通常会有大小限制。具体上限请查看对应工具页面的说明；如果文件过大，可以先压缩后再处理。
+            </div>
+          </details>
+
+          <details>
+            <summary>图片会被上传到服务器吗？</summary>
+            <div class="answer">
+              如果工具页面标注为本地处理，图片会直接在你的浏览器中完成处理，不需要上传。需要服务器处理的功能会在页面中明确说明，请以页面提示和隐私说明为准。
+            </div>
+          </details>
+
+          <details>
+            <summary>为什么处理后的图片反而变大了？</summary>
+            <div class="answer">
+              图片体积不仅取决于尺寸，还与格式、压缩质量、颜色信息和元数据有关。例如将高压缩率的 JPG 转为 PNG，或提高导出质量，都可能导致文件变大。
+            </div>
+          </details>
+
+          <details>
+            <summary>处理后的图片可以商用吗？</summary>
+            <div class="answer">
+              工具本身通常只负责图片处理，不会改变原图片的版权归属。是否可以商用取决于你对原始图片、字体、素材和相关内容是否拥有合法授权，请在使用前确认版权许可。
+            </div>
+          </details>
+        </div>
+      </section>
+
+      <section class="card feedback-card">
+        <h2>提交反馈前，请尽量提供这些信息</h2>
+        <p>
+          为了让我们更快定位问题，请在邮件中写清楚使用的工具、操作步骤、预期结果和实际结果。
+          如果方便，也可以附上浏览器名称及版本、设备类型、错误截图或可复现的示例文件。
+        </p>
+        <p>
+          提交反馈后，请留意邮箱回复。我们会根据问题复杂程度尽快处理；部分功能建议可能需要排期开发，感谢你的耐心与理解。
+        </p>
+
+        <div class="feedback-steps">
+          <div class="step">
+            <span class="step-number">1</span>
+            <h3>说明问题</h3>
+            <p>清楚描述发生了什么，以及你原本希望得到什么结果。</p>
+          </div>
+          <div class="step">
+            <span class="step-number">2</span>
+            <h3>补充材料</h3>
+            <p>提供截图、示例文件、操作系统和浏览器等必要信息。</p>
+          </div>
+          <div class="step">
+            <span class="step-number">3</span>
+            <h3>等待回复</h3>
+            <p>发送至联系邮箱后，我们会尽快查看并回复你的邮件。</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>感谢你帮助我们把在线图片工具箱做得更好。</span>
+      <a class="back-home" href="index.html" aria-label="返回首页">← 返回首页</a>
+    </div>
+  </footer>
+</body>
+</html>

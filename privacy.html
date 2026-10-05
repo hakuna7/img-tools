@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="在线图片工具箱隐私政策">
+  <title>隐私政策｜在线图片工具箱</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1020;
+      --bg-soft: #11182b;
+      --panel: rgba(19, 28, 49, 0.88);
+      --panel-light: #18233c;
+      --border: rgba(148, 163, 184, 0.16);
+      --text: #f5f7fb;
+      --text-soft: #b8c2d6;
+      --muted: #8793aa;
+      --primary: #7c9cff;
+      --primary-strong: #9b8cff;
+      --accent: #68e0c0;
+      --shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+      --radius-lg: 24px;
+      --radius-md: 14px;
+      --max-width: 920px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% -10%, rgba(124, 156, 255, 0.18), transparent 32rem),
+        radial-gradient(circle at 92% 4%, rgba(104, 224, 192, 0.1), transparent 28rem),
+        var(--bg);
+      font-family:
+        Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #b2c1ff;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .site-header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(11, 16, 32, 0.74);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .header-inner {
+      width: min(100% - 40px, var(--max-width));
+      margin: 0 auto;
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--text);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .brand:hover {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+      box-shadow: 0 8px 24px rgba(124, 156, 255, 0.28);
+      font-size: 0.95rem;
+      font-weight: 800;
+    }
+
+    .header-link {
+      color: var(--text-soft);
+      font-size: 0.92rem;
+    }
+
+    .header-link:hover {
+      color: var(--text);
+    }
+
+    main {
+      width: min(100% - 40px, var(--max-width));
+      margin: 0 auto;
+      padding: 74px 0 96px;
+    }
+
+    .hero {
+      margin-bottom: 34px;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 720px;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      line-height: 1.2;
+      letter-spacing: -0.035em;
+    }
+
+    .updated {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .policy-card {
+      padding: clamp(24px, 5vw, 48px);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      background: linear-gradient(145deg, rgba(24, 35, 60, 0.88), rgba(15, 23, 42, 0.92));
+      box-shadow: var(--shadow);
+    }
+
+    .intro {
+      margin: 0 0 34px;
+      padding: 18px 20px;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      color: #d8e0ef;
+      background: rgba(104, 224, 192, 0.07);
+    }
+
+    section {
+      padding: 30px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    section:first-of-type {
+      padding-top: 0;
+      border-top: 0;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      color: var(--text);
+      font-size: clamp(1.25rem, 2.5vw, 1.55rem);
+      line-height: 1.4;
+    }
+
+    h2 .number {
+      display: inline-flex;
+      width: 30px;
+      height: 30px;
+      margin-right: 8px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9px;
+      color: #dce4ff;
+      background: rgba(124, 156, 255, 0.16);
+      font-size: 0.82rem;
+      vertical-align: 2px;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: var(--text-soft);
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+
+    ul {
+      margin: 12px 0 0;
+      padding-left: 1.35rem;
+      color: var(--text-soft);
+    }
+
+    li {
+      margin: 8px 0;
+      padding-left: 4px;
+    }
+
+    strong {
+      color: #e9edff;
+      font-weight: 650;
+    }
+
+    .contact {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 10px 14px;
+      border: 1px solid rgba(124, 156, 255, 0.22);
+      border-radius: 10px;
+      color: #d8e0ff;
+      background: rgba(124, 156, 255, 0.09);
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--border);
+      background: rgba(7, 11, 24, 0.72);
+    }
+
+    .footer-inner {
+      width: min(100% - 40px, var(--max-width));
+      margin: 0 auto;
+      min-height: 92px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .back-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--text-soft);
+      font-weight: 600;
+    }
+
+    .back-home:hover {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    @media (max-width: 640px) {
+      .header-inner,
+      main,
+      .footer-inner {
+        width: min(100% - 28px, var(--max-width));
+      }
+
+      .header-inner {
+        min-height: 68px;
+      }
+
+      .brand {
+        font-size: 0.98rem;
+      }
+
+      .header-link {
+        font-size: 0.84rem;
+      }
+
+      main {
+        padding: 48px 0 64px;
+      }
+
+      .policy-card {
+        padding: 24px 20px;
+        border-radius: 18px;
+      }
+
+      section {
+        padding: 25px 0;
+      }
+
+      .footer-inner {
+        min-height: 104px;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="index.html" aria-label="返回在线图片工具箱首页">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span>在线图片工具箱</span>
+      </a>
+      <a class="header-link" href="index.html">返回工具箱</a>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <p class="eyebrow">Privacy Policy</p>
+      <h1>隐私政策</h1>
+      <p class="updated">最后更新日期：2026 年 10 月 6 日</p>
+    </div>
+
+    <article class="policy-card">
+      <p class="intro">
+        欢迎使用在线图片工具箱（以下简称“本站”）。我们重视您的隐私，并希望通过这份隐私政策清楚说明本站如何处理与保护您的信息。使用本站即表示您已阅读并理解本政策。
+      </p>
+
+      <section>
+        <h2><span class="number">1</span>信息收集说明</h2>
+        <p>
+          本站提供图片压缩、格式转换、尺寸调整等在线图片处理功能。<strong>所有图片处理均在您的浏览器本地完成，您选择或导入的图片不会上传到本站服务器，也不会被本站保存、查看或传输给我们。</strong>
+        </p>
+        <p>
+          图片处理过程中产生的临时数据通常仅保留在当前浏览器页面的运行环境中。关闭页面或刷新页面后，相关临时数据会按照浏览器的正常机制被清除。
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="number">2</span>我们收集哪些信息</h2>
+        <p>
+          本站无需注册账号，也无需登录即可使用。我们不会主动收集、保存或要求您提供姓名、电子邮箱、电话号码、身份证件、住址等个人信息。
+        </p>
+        <p>
+          您在浏览器中处理的图片、文件内容及处理结果不会上传到本站服务器。除本政策“Cookie 与第三方广告”部分所述的第三方服务可能自动收集的匿名技术数据外，本站不建立个人用户档案，也不会将个人信息出售或出租给任何第三方。
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="number">3</span>Cookie 与第三方广告</h2>
+        <p>
+          为维持网站运营，本站可能使用 Google AdSense 等第三方广告服务展示广告。相关第三方可能在您的浏览器中使用 Cookie 或类似技术，收集与浏览器、设备、访问页面及广告互动有关的匿名或去标识化数据，用于广告投放、频次控制、效果衡量及改善广告相关服务。
+        </p>
+        <p>
+          第三方广告服务的数据处理受其自身隐私政策约束，本站无法控制第三方如何处理这些数据。您可以通过浏览器的隐私或 Cookie 设置管理、限制或删除 Cookie，也可以访问
+          <a href="https://adssettings.google.com/" target="_blank" rel="noopener noreferrer">Google 广告设置</a>
+          关闭个性化广告。关闭个性化广告后，您仍可能看到广告，但广告内容可能与您的兴趣相关性较低。
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="number">4</span>数据存储与安全</h2>
+        <p>
+          由于图片处理在您的浏览器本地完成，本站不会在服务器端存储您的图片或图片处理结果。本站也不会通过图片内容识别您的身份。
+        </p>
+        <p>
+          我们会采取合理的技术和管理措施维护网站的正常运行，并尽力保护网站及相关服务免受未经授权的访问、修改或破坏。但互联网传输和电子存储不存在绝对安全的保证，请您使用安全、受信任的设备和网络访问本站。
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="number">5</span>儿童隐私</h2>
+        <p>
+          本站面向普通互联网用户，不会明知地收集未满 13 周岁儿童的个人信息。由于本站无需注册或登录，儿童可以在监护人指导下使用图片处理功能，但我们建议家长或监护人陪同儿童使用互联网服务。
+        </p>
+        <p>
+          如果您认为儿童在未获监护人同意的情况下向本站提交了个人信息，请通过下方联系方式与我们联系，我们会在合理范围内协助处理。
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="number">6</span>政策更新</h2>
+        <p>
+          我们可能根据网站功能调整、法律法规变化或第三方服务变化对本隐私政策进行更新。更新后的内容会在本页面发布，并修改页面顶部的“最后更新日期”。政策更新后，您继续使用本站即表示您接受更新后的政策。
+        </p>
+      </section>
+
+      <section>
+        <h2><span class="number">7</span>联系我们</h2>
+        <p>
+          如果您对本隐私政策、本站的数据处理方式或隐私保护有任何疑问、意见或请求，欢迎通过以下邮箱与我们联系：
+        </p>
+        <p class="contact">
+          联系邮箱：<a href="mailto:【你的联系邮箱】">【你的联系邮箱】</a>
+        </p>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>© 2026 在线图片工具箱</span>
+      <a class="back-home" href="index.html" aria-label="返回首页">
+        <span aria-hidden="true">←</span>
+        <span>返回首页</span>
+      </a>
+    </div>
+  </footer>
+</body>
+</html>
