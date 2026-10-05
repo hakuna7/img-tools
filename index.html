@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#10151d" />
+  <title>图工具箱｜免费在线图片处理</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --surface: #111821;
+      --surface-2: #17212c;
+      --surface-3: #1c2936;
+      --border: #263544;
+      --text: #eef4f8;
+      --muted: #8d9bab;
+      --primary: #5eead4;
+      --primary-deep: #2dd4bf;
+      --blue: #60a5fa;
+      --danger: #fb7185;
+      --shadow: 0 18px 60px rgba(0, 0, 0, .28);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% -10%, rgba(45, 212, 191, .09), transparent 32rem),
+        radial-gradient(circle at 90% 10%, rgba(96, 165, 250, .08), transparent 32rem),
+        var(--bg);
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      line-height: 1.5;
+    }
+
+    button, input, select { font: inherit; }
+
+    button { cursor: pointer; }
+
+    .app-shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 38px 0 34px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 24px;
+      padding: 14px 0 32px;
+    }
+
+    .brand-wrap { display: flex; align-items: center; gap: 15px; }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      color: #07251f;
+      background: linear-gradient(145deg, var(--primary), #99f6e4);
+      box-shadow: 0 10px 30px rgba(45, 212, 191, .18);
+      font-size: 23px;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(27px, 5vw, 38px);
+      letter-spacing: -.045em;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .privacy-pill {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: #b5f5e9;
+      background: rgba(45, 212, 191, .09);
+      border: 1px solid rgba(94, 234, 212, .19);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .privacy-pill::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 0 0 4px rgba(94,234,212,.12);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 7px;
+      padding: 6px;
+      background: rgba(17, 24, 33, .85);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+    }
+
+    .tab {
+      border: 0;
+      border-radius: 11px;
+      color: var(--muted);
+      background: transparent;
+      padding: 12px 10px;
+      font-weight: 650;
+      font-size: 14px;
+      transition: .2s ease;
+    }
+
+    .tab:hover { color: var(--text); background: rgba(255,255,255,.04); }
+    .tab.active {
+      color: #05251f;
+      background: var(--primary);
+      box-shadow: 0 8px 20px rgba(45, 212, 191, .15);
+    }
+
+    main { margin-top: 22px; }
+
+    .panel {
+      display: none;
+      padding: clamp(17px, 4vw, 30px);
+      background: rgba(17, 24, 33, .9);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      animation: fade-in .25s ease;
+    }
+
+    .panel.active { display: block; }
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 20px;
+      margin-bottom: 21px;
+    }
+
+    .panel h2 {
+      margin: 0 0 6px;
+      font-size: 21px;
+      letter-spacing: -.02em;
+    }
+
+    .panel-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .step-label {
+      color: var(--primary);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .dropzone {
+      min-height: 205px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 25px;
+      border: 1px dashed #3b5062;
+      border-radius: 15px;
+      background: linear-gradient(135deg, rgba(27, 40, 53, .58), rgba(15, 23, 32, .45));
+      transition: .2s ease;
+      outline: none;
+    }
+
+    .dropzone:hover, .dropzone.dragover, .dropzone:focus-visible {
+      border-color: var(--primary);
+      background: rgba(45, 212, 191, .07);
+      box-shadow: inset 0 0 0 1px rgba(94,234,212,.18);
+    }
+
+    .upload-icon {
+      width: 49px;
+      height: 49px;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 13px;
+      border-radius: 15px;
+      background: rgba(94, 234, 212, .1);
+      color: var(--primary);
+      font-size: 23px;
+    }
+
+    .dropzone strong { display: block; font-size: 15px; }
+    .dropzone span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+
+    .file-input { display: none; }
+
+    .browse-btn, .primary-btn, .secondary-btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 7px;
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-weight: 700;
+      transition: .18s ease;
+    }
+
+    .browse-btn {
+      margin-top: 15px;
+      color: #06251f;
+      background: var(--primary);
+      font-size: 13px;
+    }
+
+    .browse-btn:hover, .primary-btn:hover { background: #8af2df; transform: translateY(-1px); }
+
+    .controls {
+      display: grid;
+      gap: 17px;
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 13px;
+      background: rgba(7, 12, 18, .34);
+      border: 1px solid rgba(38, 53, 68, .75);
+    }
+
+    .control-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .control-row label, .field label {
+      color: #c2ced9;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .range-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 210px;
+    }
+
+    input[type="range"] {
+      flex: 1;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .value-badge {
+      min-width: 45px;
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: 800;
+      text-align: right;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+    }
+
+    .field { display: grid; gap: 7px; }
+
+    .field input, .field select {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      color: var(--text);
+      background: var(--surface-2);
+      padding: 10px 11px;
+      outline: none;
+    }
+
+    .field input:focus, .field select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(94,234,212,.1);
+    }
+
+    .field select option { background: var(--surface-2); }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: #c2ced9;
+      font-size: 13px;
+    }
+
+    .check-row input {
+      width: 17px;
+      height: 17px;
+      accent-color: var(--primary);
+    }
+
+    .action-row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .primary-btn {
+      color: #06251f;
+      background: var(--primary);
+      min-width: 118px;
+    }
+
+    .secondary-btn {
+      color: #d5e2ec;
+      background: var(--surface-3);
+      border: 1px solid var(--border);
+    }
+
+    .secondary-btn:hover { border-color: #567083; background: #253747; }
+
+    .primary-btn:disabled, .secondary-btn:disabled {
+      cursor: not-allowed;
+      opacity: .45;
+      transform: none;
+    }
+
+    .loading {
+      display: none;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .loading.show { display: inline-flex; }
+
+    .spinner {
+      width: 15px;
+      height: 15px;
+      border: 2px solid #385061;
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .result {
+      display: none;
+      margin-top: 21px;
+      padding-top: 21px;
+      border-top: 1px solid var(--border);
+    }
+
+    .result.show { display: block; }
+
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+      margin-bottom: 17px;
+    }
+
+    .compare-card {
+      min-width: 0;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(25, 37, 49, .55);
+    }
+
+    .compare-card h3 {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .compare-card .info {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+
+    .preview {
+      width: 68px;
+      height: 58px;
+      object-fit: contain;
+      border-radius: 8px;
+      background:
+        linear-gradient(45deg, #25313c 25%, transparent 25%),
+        linear-gradient(-45deg, #25313c 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #25313c 75%),
+        linear-gradient(-45deg, transparent 75%, #25313c 75%);
+      background-size: 12px 12px;
+      background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+      background-color: #18222c;
+    }
+
+    .meta strong { display: block; font-size: 14px; }
+    .meta span { color: var(--muted); font-size: 12px; }
+
+    .result-note {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 14px;
+      color: #b6c8d5;
+      font-size: 13px;
+    }
+
+    .rate {
+      padding: 4px 8px;
+      border-radius: 99px;
+      color: #06251f;
+      background: var(--primary);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .batch-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 12px;
+      margin-top: 19px;
+    }
+
+    .batch-card {
+      display: grid;
+      grid-template-columns: 65px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(25, 37, 49, .55);
+    }
+
+    .batch-card img {
+      width: 65px;
+      height: 58px;
+      object-fit: contain;
+      border-radius: 8px;
+      background-color: #18222c;
+    }
+
+    .batch-card .filename {
+      overflow: hidden;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 700;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .batch-card .small {
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .batch-card .download-mini {
+      display: inline-block;
+      margin-top: 8px;
+      color: var(--primary);
+      border: 0;
+      padding: 0;
+      background: none;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .empty-result {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .resize-preview {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 13px;
+      margin-top: 20px;
+    }
+
+    .dimension-card {
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(25, 37, 49, .55);
+    }
+
+    .dimension-card h3 {
+      margin: 0 0 6px;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+    }
+
+    .dimension-card strong { font-size: 20px; letter-spacing: -.03em; }
+    .dimension-card span { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; }
+
+    footer {
+      padding: 24px 4px 0;
+      color: var(--muted);
+      text-align: center;
+      font-size: 12px;
+    }
+
+    footer .features {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    footer .features span::before {
+      content: "✓";
+      margin-right: 5px;
+      color: var(--primary);
+      font-weight: 800;
+    }
+
+    #ad-slot {
+      min-height: 56px;
+      margin: 0 auto;
+      border: 1px dashed #243441;
+      border-radius: 10px;
+      opacity: .65;
+    }
+
+    .toast {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 20;
+      max-width: min(360px, calc(100% - 40px));
+      padding: 12px 15px;
+      border: 1px solid rgba(94,234,212,.22);
+      border-radius: 10px;
+      color: var(--text);
+      background: #17252d;
+      box-shadow: var(--shadow);
+      font-size: 13px;
+      transform: translateY(20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: .22s ease;
+    }
+
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    @media (max-width: 680px) {
+      .app-shell { width: min(100% - 20px, 1120px); padding-top: 22px; }
+      header { align-items: flex-start; flex-direction: column; gap: 15px; padding-bottom: 22px; }
+      .privacy-pill { align-self: flex-start; }
+      .tabs { grid-template-columns: repeat(2, 1fr); }
+      .panel-heading { flex-direction: column; gap: 6px; }
+      .compare, .resize-preview { grid-template-columns: 1fr; }
+      .field-grid { grid-template-columns: 1fr; }
+      .dropzone { min-height: 178px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <header>
+      <div class="brand-wrap">
+        <div class="brand-mark">图</div>
+        <div>
+          <h1>图工具箱</h1>
+          <p class="subtitle">免费在线图片处理，本地处理不上传</p>
+        </div>
+      </div>
+      <div class="privacy-pill">文件仅在你的浏览器中处理</div>
+    </header>
+
+    <nav class="tabs" aria-label="图片工具">
+      <button class="tab active" data-tab="compress">图片压缩</button>
+      <button class="tab" data-tab="convert">格式转换</button>
+      <button class="tab" data-tab="resize">尺寸调整</button>
+      <button class="tab" data-tab="batch">批量压缩</button>
+    </nav>
+
+    <main>
+      <section class="panel active" id="compress-panel">
+        <div class="panel-heading">
+          <div>
+            <div class="step-label">Tool 01</div>
+            <h2>图片压缩</h2>
+            <p>调整质量，减少文件体积，支持 JPG、PNG、WebP。</p>
+          </div>
+        </div>
+
+        <div class="dropzone" data-input="compress-file" tabindex="0">
+          <div>
+            <div class="upload-icon">↥</div>
+            <strong>拖拽图片到这里</strong>
+            <span>或点击下方按钮选择图片</span>
+            <button class="browse-btn" type="button">选择图片</button>
+            <input class="file-input" id="compress-file" type="file" accept="image/jpeg,image/png,image/webp" />
+          </div>
+        </div>
+
+        <div class="controls">
+          <div class="control-row">
+            <label for="compress-quality">压缩质量</label>
+            <div class="range-wrap">
+              <input id="compress-quality" type="range" min="1" max="100" value="80" />
+              <span class="value-badge" id="quality-value">80</span>
+            </div>
+            <span style="color:var(--muted);font-size:12px;">质量越高，文件越大</span>
+          </div>
+          <div class="action-row">
+            <button class="primary-btn" id="compress-btn" type="button" disabled>开始压缩</button>
+            <span class="loading" id="compress-loading"><i class="spinner"></i>正在处理…</span>
+          </div>
+        </div>
+
+        <div class="result" id="compress-result">
+          <div class="compare">
+            <div class="compare-card">
+              <h3>处理前</h3>
+              <div class="info">
+                <img class="preview" id="compress-before-img" alt="原图预览" />
+                <div class="meta"><strong id="compress-before-size">—</strong><span id="compress-before-meta">—</span></div>
+              </div>
+            </div>
+            <div class="compare-card">
+              <h3>处理后</h3>
+              <div class="info">
+                <img class="preview" id="compress-after-img" alt="压缩后预览" />
+                <div class="meta"><strong id="compress-after-size">—</strong><span id="compress-after-meta">—</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="result-note"><span id="compress-summary"></span><span class="rate" id="compress-rate"></span></div>
+          <button class="primary-btn" id="compress-download" type="button">下载压缩图片</button>
+        </div>
+      </section>
+
+      <section class="panel" id="convert-panel">
+        <div class="panel-heading">
+          <div>
+            <div class="step-label">Tool 02</div>
+            <h2>格式转换</h2>
+            <p>在 JPG、PNG、WebP 之间快速转换，图片不会离开设备。</p>
+          </div>
+        </div>
+
+        <div class="dropzone" data-input="convert-file" tabindex="0">
+          <div>
+            <div class="upload-icon">↥</div>
+            <strong>拖拽图片到这里</strong>
+            <span>支持 JPG、PNG、WebP</span>
+            <button class="browse-btn" type="button">选择图片</button>
+            <input class="file-input" id="convert-file" type="file" accept="image/jpeg,image/png,image/webp" />
+          </div>
+        </div>
+
+        <div class="controls">
+          <div class="field-grid">
+            <div class="field">
+              <label for="convert-format">目标格式</label>
+              <select id="convert-format">
+                <option value="image/jpeg">JPG</option>
+                <option value="image/png">PNG</option>
+                <option value="image/webp">WebP</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="convert-quality">输出质量（JPG/WebP）</label>
+              <div class="range-wrap">
+                <input id="convert-quality" type="range" min="1" max="100" value="90" />
+                <span class="value-badge" id="convert-quality-value">90</span>
+              </div>
+            </div>
+          </div>
+          <div class="action-row">
+            <button class="primary-btn" id="convert-btn" type="button" disabled>开始转换</button>
+            <span class="loading" id="convert-loading"><i class="spinner"></i>正在处理…</span>
+          </div>
+        </div>
+
+        <div class="result" id="convert-result">
+          <div class="compare">
+            <div class="compare-card">
+              <h3>处理前</h3>
+              <div class="info">
+                <img class="preview" id="convert-before-img" alt="原图预览" />
+                <div class="meta"><strong id="convert-before-size">—</strong><span id="convert-before-meta">—</span></div>
+              </div>
+            </div>
+            <div class="compare-card">
+              <h3>处理后</h3>
+              <div class="info">
+                <img class="preview" id="convert-after-img" alt="转换后预览" />
+                <div class="meta"><strong id="convert-after-size">—</strong><span id="convert-after-meta">—</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="result-note"><span id="convert-summary"></span></div>
+          <button class="primary-btn" id="convert-download" type="button">下载转换图片</button>
+        </div>
+      </section>
+
+      <section class="panel" id="resize-panel">
+        <div class="panel-heading">
+          <div>
+            <div class="step-label">Tool 03</div>
+            <h2>尺寸调整</h2>
+            <p>按百分比或指定像素修改图片尺寸，支持保持宽高比例。</p>
+          </div>
+        </div>
+
+        <div class="dropzone" data-input="resize-file" tabindex="0">
+          <div>
+            <div class="upload-icon">↥</div>
+            <strong>拖拽图片到这里</strong>
+            <span>支持 JPG、PNG、WebP</span>
+            <button class="browse-btn" type="button">选择图片</button>
+            <input class="file-input" id="resize-file" type="file" accept="image/jpeg,image/png,image/webp" />
+          </div>
+        </div>
+
+        <div class="controls">
+          <div class="field-grid">
+            <div class="field">
+              <label for="resize-mode">调整方式</label>
+              <select id="resize-mode">
+                <option value="percent">按百分比</option>
+                <option value="pixels">指定宽高</option>
+              </select>
+            </div>
+            <div class="field" id="percent-field">
+              <label for="resize-percent">缩放比例（%）</label>
+              <input id="resize-percent" type="number" min="1" max="1000" value="50" />
+            </div>
+            <div class="field" id="width-field" style="display:none;">
+              <label for="resize-width">目标宽度（px）</label>
+              <input id="resize-width" type="number" min="1" placeholder="例如 1200" />
+            </div>
+            <div class="field" id="height-field" style="display:none;">
+              <label for="resize-height">目标高度（px）</label>
+              <input id="resize-height" type="number" min="1" placeholder="例如 800" />
+            </div>
+          </div>
+          <label class="check-row"><input id="keep-ratio" type="checkbox" checked /> 保持宽高比例</label>
+          <div class="action-row">
+            <button class="primary-btn" id="resize-btn" type="button" disabled>开始调整</button>
+            <span class="loading" id="resize-loading"><i class="spinner"></i>正在处理…</span>
+          </div>
+        </div>
+
+        <div class="resize-preview" id="resize-dimensions" style="display:none;">
+          <div class="dimension-card"><h3>处理前尺寸</h3><strong id="resize-before-dim">—</strong><span id="resize-before-file">—</span></div>
+          <div class="dimension-card"><h3>处理后尺寸</h3><strong id="resize-after-dim">—</strong><span id="resize-after-file">—</span></div>
+        </div>
+
+        <div class="result" id="resize-result">
+          <div class="compare">
+            <div class="compare-card">
+              <h3>处理前</h3>
+              <div class="info"><img class="preview" id="resize-before-img" alt="原图预览" /><div class="meta"><strong id="resize-before-size">—</strong><span id="resize-before-meta">—</span></div></div>
+            </div>
+            <div class="compare-card">
+              <h3>处理后</h3>
+              <div class="info"><img class="preview" id="resize-after-img" alt="调整后预览" /><div class="meta"><strong id="resize-after-size">—</strong><span id="resize-after-meta">—</span></div></div>
+            </div>
+          </div>
+          <div class="result-note"><span id="resize-summary"></span></div>
+          <button class="primary-btn" id="resize-download" type="button">下载调整后的图片</button>
+        </div>
+      </section>
+
+      <section class="panel" id="batch-panel">
+        <div class="panel-heading">
+          <div>
+            <div class="step-label">Tool 04</div>
+            <h2>批量压缩</h2>
+            <p>一次选择多张图片，逐个压缩后打包为 ZIP 下载。</p>
+          </div>
+        </div>
+
+        <div class="dropzone" data-input="batch-file" tabindex="0">
+          <div>
+            <div class="upload-icon">↥</div>
+            <strong>拖拽多张图片到这里</strong>
+            <span>可一次选择多张 JPG、PNG、WebP 图片</span>
+            <button class="browse-btn" type="button">选择多张图片</button>
+            <input class="file-input" id="batch-file" type="file" accept="image/jpeg,image/png,image/webp" multiple />
+          </div>
+        </div>
+
+        <div class="controls">
+          <div class="control-row">
+            <label for="batch-quality">压缩质量</label>
+            <div class="range-wrap"><input id="batch-quality" type="range" min="1" max="100" value="80" /><span class="value-badge" id="batch-quality-value">80</span></div>
+          </div>
+          <div class="action-row">
+            <button class="primary-btn" id="batch-btn" type="button" disabled>开始批量压缩</button>
+            <button class="secondary-btn" id="batch-clear" type="button" disabled>清空列表</button>
+            <span class="loading" id="batch-loading"><i class="spinner"></i><span id="batch-loading-text">正在处理…</span></span>
+          </div>
+        </div>
+
+        <div class="result" id="batch-result">
+          <div class="result-note"><span id="batch-summary"></span><span class="rate" id="batch-rate"></span></div>
+          <button class="primary-btn" id="batch-download" type="button">下载全部 ZIP</button>
+          <div class="batch-list" id="batch-list"></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="features">
+        <span>本地处理</span>
+        <span>隐私安全</span>
+        <span>免费使用</span>
+      </div>
+      <div id="ad-slot"></div>
+    </footer>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script>
+    const state = {
+      compressFile: null,
+      convertFile: null,
+      resizeFile: null,
+      batchFiles: [],
+      compressBlob: null,
+      convertBlob: null,
+      resizeBlob: null,
+      batchResults: []
+    };
+
+    const $ = (id) => document.getElementById(id);
+
+    function formatBytes(bytes) {
+      if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
+      const units = ["B", "KB", "MB", "GB"];
+      const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+      return (bytes / Math.pow(1024, i)).toFixed(i === 0 ? 0 : 2) + " " + units[i];
+    }
+
+    function extensionFromType(type) {
+      return ({ "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp" }[type] || "png");
+    }
+
+    function typeLabel(type) {
+      return ({ "image/jpeg": "JPG", "image/png": "PNG", "image/webp": "WebP" }[type] || type.split("/").pop().toUpperCase());
+    }
+
+    function showToast(message) {
+      const toast = $("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    function setLoading(id, on, text) {
+      const el = $(id);
+      if (text) {
+        const textEl = el.querySelector("span:last-child");
+        if (textEl) textEl.textContent = text;
+      }
+      el.classList.toggle("show", on);
+    }
+
+    function loadImage(file) {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("无法读取图片")); };
+        img.src = url;
+      });
+    }
+
+    function canvasBlob(img, width, height, type, quality) {
+      return new Promise((resolve, reject) => {
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.round(width));
+        canvas.height = Math.max(1, Math.round(height));
+        const ctx = canvas.getContext("2d", { alpha: type !== "image/jpeg" });
+        if (type === "image/jpeg") {
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error("浏览器无法生成图片")), type, quality);
+      });
+    }
+
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    function setPreview(imgId, blobOrFile) {
+      const el = $(imgId);
+      if (el._objectUrl) URL.revokeObjectURL(el._objectUrl);
+      el._objectUrl = URL.createObjectURL(blobOrFile);
+      el.src = el._objectUrl;
+    }
+
+    function baseName(name) {
+      return name.replace(/\.[^/.]+$/, "");
+    }
+
+    function bindDropzone(zone) {
+      const input = $(zone.dataset.input);
+      const browse = zone.querySelector(".browse-btn");
+      browse.addEventListener("click", e => { e.stopPropagation(); input.click(); });
+      zone.addEventListener("click", e => { if (e.target !== browse) input.click(); });
+      zone.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") input.click(); });
+      ["dragenter", "dragover"].forEach(type => zone.addEventListener(type, e => {
+        e.preventDefault();
+        zone.classList.add("dragover");
+      }));
+      ["dragleave", "drop"].forEach(type => zone.addEventListener(type, e => {
+        e.preventDefault();
+        zone.classList.remove("dragover");
+      }));
+      zone.addEventListener("drop", e => {
+        if (e.dataTransfer.files.length) {
+          input.files = e.dataTransfer.files;
+          input.dispatchEvent(new Event("change"));
+        }
+      });
+    }
+
+    document.querySelectorAll(".dropzone").forEach(bindDropzone);
+
+    document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t === tab));
+      document.querySelectorAll(".panel").forEach(p => p.classList.toggle("active", p.id === tab.dataset.tab + "-panel"));
+    }));
+
+    $("compress-quality").addEventListener("input", e => $("quality-value").textContent = e.target.value);
+    $("convert-quality").addEventListener("input", e => $("convert-quality-value").textContent = e.target.value);
+    $("batch-quality").addEventListener("input", e => $("batch-quality-value").textContent = e.target.value);
+
+    $("compress-file").addEventListener("change", e => {
+      state.compressFile = e.target.files[0] || null;
+      $("compress-btn").disabled = !state.compressFile;
+      if (state.compressFile) showToast("已选择 " + state.compressFile.name);
+    });
+
+    $("convert-file").addEventListener("change", e => {
+      state.convertFile = e.target.files[0] || null;
+      $("convert-btn").disabled = !state.convertFile;
+      if (state.convertFile) showToast("已选择 " + state.convertFile.name);
+    });
+
+    $("resize-file").addEventListener("change", async e => {
+      state.resizeFile = e.target.files[0] || null;
+      $("resize-btn").disabled = !state.resizeFile;
+      if (state.resizeFile) {
+        try {
+          const img = await loadImage(state.resizeFile);
+          $("resize-before-dim").textContent = img.width + " × " + img.height;
+          $("resize-before-file").textContent = formatBytes(state.resizeFile.size);
+          $("resize-dimensions").style.display = "grid";
+          $("resize-width").value = img.width;
+          $("resize-height").value = img.height;
+        } catch {}
+        showToast("已选择 " + state.resizeFile.name);
+      }
+    });
+
+    $("batch-file").addEventListener("change", e => {
+      state.batchFiles = Array.from(e.target.files || []).filter(f => f.type.startsWith("image/"));
+      $("batch-btn").disabled = !state.batchFiles.length;
+      $("batch-clear").disabled = !state.batchFiles.length;
+      $("batch-result").classList.remove("show");
+      if (state.batchFiles.length) showToast("已选择 " + state.batchFiles.length + " 张图片");
+    });
+
+    $("resize-mode").addEventListener("change", e => {
+      const pixels = e.target.value === "pixels";
+      $("percent-field").style.display = pixels ? "none" : "grid";
+      $("width-field").style.display = pixels ? "grid" : "none";
+      $("height-field").style.display = pixels ? "grid" : "none";
+    });
+
+    function updateHeightFromWidth() {
+      if (!$("keep-ratio").checked || !state.resizeFile || $("resize-mode").value !== "pixels") return;
+      const w = Number($("resize-width").value);
+      const originalW = Number($("resize-before-dim").textContent.split("×")[0]);
+      const originalH = Number($("resize-before-dim").textContent.split("×")[1]);
+      if (w && originalW) $("resize-height").value = Math.round(w * originalH / originalW);
+    }
+
+    function updateWidthFromHeight() {
+      if (!$("keep-ratio").checked || !state.resizeFile || $("resize-mode").value !== "pixels") return;
+      const h = Number($("resize-height").value);
+      const originalW = Number($("resize-before-dim").textContent.split("×")[0]);
+      const originalH = Number($("resize-before-dim").textContent.split("×")[1]);
+      if (h && originalH) $("resize-width").value = Math.round(h * originalW / originalH);
+    }
+
+    $("resize-width").addEventListener("input", updateHeightFromWidth);
+    $("resize-height").addEventListener("input", updateWidthFromHeight);
+
+    $("compress-btn").addEventListener("click", async () => {
+      if (!state.compressFile) return;
+      const button = $("compress-btn");
+      button.disabled = true;
+      setLoading("compress-loading", true);
+      try {
+        const img = await loadImage(state.compressFile);
+        const outputType = state.compressFile.type === "image/png" ? "image/png" : state.compressFile.type === "image/webp" ? "image/webp" : "image/jpeg";
+        state.compressBlob = await canvasBlob(img, img.width, img.height, outputType, Number($("compress-quality").value) / 100);
+        setPreview("compress-before-img", state.compressFile);
+        setPreview("compress-after-img", state.compressBlob);
+        $("compress-before-size").textContent = formatBytes(state.compressFile.size);
+        $("compress-after-size").textContent = formatBytes(state.compressBlob.size);
+        $("compress-before-meta").textContent = img.width + " × " + img.height + " · " + typeLabel(state.compressFile.type);
+        $("compress-after-meta").textContent = img.width + " × " + img.height + " · " + typeLabel(outputType);
+        const saved = Math.max(0, (1 - state.compressBlob.size / state.compressFile.size) * 100);
+        $("compress-summary").textContent = saved > 0 ? "文件体积减少 " + saved.toFixed(1) + "%" : "图片已按指定质量重新生成";
+        $("compress-rate").textContent = saved > 0 ? "节省 " + formatBytes(state.compressFile.size - state.compressBlob.size) : "质量 " + $("compress-quality").value;
+        $("compress-result").classList.add("show");
+      } catch (err) { showToast(err.message || "处理失败"); }
+      finally { button.disabled = false; setLoading("compress-loading", false); }
+    });
+
+    $("compress-download").addEventListener("click", () => {
+      if (state.compressBlob && state.compressFile) downloadBlob(state.compressBlob, baseName(state.compressFile.name) + "-compressed." + extensionFromType(state.compressBlob.type));
+    });
+
+    $("convert-btn").addEventListener("click", async () => {
+      if (!state.convertFile) return;
+      const button = $("convert-btn");
+      button.disabled = true;
+      setLoading("convert-loading", true);
+      try {
+        const img = await loadImage(state.convertFile);
+        const type = $("convert-format").value;
+        const quality = Number($("convert-quality").value) / 100;
+        state.convertBlob = await canvasBlob(img, img.width, img.height, type, quality);
+        setPreview("convert-before-img", state.convertFile);
+        setPreview("convert-after-img", state.convertBlob);
+        $("convert-before-size").textContent = formatBytes(state.convertFile.size);
+        $("convert-after-size").textContent = formatBytes(state.convertBlob.size);
+        $("convert-before-meta").textContent = img.width + " × " + img.height + " · " + typeLabel(state.convertFile.type);
+        $("convert-after-meta").textContent = img.width + " × " + img.height + " · " + typeLabel(type);
+        $("convert-summary").textContent = "已从 " + typeLabel(state.convertFile.type) + " 转换为 " + typeLabel(type) + "，尺寸保持不变";
+        $("convert-result").classList.add("show");
+      } catch (err) { showToast(err.message || "处理失败"); }
+      finally { button.disabled = false; setLoading("convert-loading", false); }
+    });
+
+    $("convert-download").addEventListener("click", () => {
+      if (state.convertBlob && state.convertFile) downloadBlob(state.convertBlob, baseName(state.convertFile.name) + "-converted." + extensionFromType(state.convertBlob.type));
+    });
+
+    $("resize-btn").addEventListener("click", async () => {
+      if (!state.resizeFile) return;
+      const button = $("resize-btn");
+      button.disabled = true;
+      setLoading("resize-loading", true);
+      try {
+        const img = await loadImage(state.resizeFile);
+        let width, height;
+        if ($("resize-mode").value === "percent") {
+          const percent = Math.max(1, Number($("resize-percent").value) || 100) / 100;
+          width = Math.round(img.width * percent);
+          height = Math.round(img.height * percent);
+        } else {
+          width = Math.max(1, Number($("resize-width").value) || img.width);
+          height = Math.max(1, Number($("resize-height").value) || img.height);
+          if ($("keep-ratio").checked) {
+            const ratio = img.width / img.height;
+            if (Number($("resize-width").value) && !Number($("resize-height").value)) height = Math.round(width / ratio);
+            else if (Number($("resize-height").value) && !Number($("resize-width").value)) width = Math.round(height * ratio);
+          }
+        }
+        const type = state.resizeFile.type === "image/png" ? "image/png" : state.resizeFile.type === "image/webp" ? "image/webp" : "image/jpeg";
+        state.resizeBlob = await canvasBlob(img, width, height, type, .92);
+        setPreview("resize-before-img", state.resizeFile);
+        setPreview("resize-after-img", state.resizeBlob);
+        $("resize-before-size").textContent = formatBytes(state.resizeFile.size);
+        $("resize-after-size").textContent = formatBytes(state.resizeBlob.size);
+        $("resize-before-meta").textContent = img.width + " × " + img.height + " · " + typeLabel(state.resizeFile.type);
+        $("resize-after-meta").textContent = width + " × " + height + " · " + typeLabel(type);
+        $("resize-before-dim").textContent = img.width + " × " + img.height;
+        $("resize-after-dim").textContent = width + " × " + height;
+        $("resize-after-file").textContent = formatBytes(state.resizeBlob.size);
+        $("resize-summary").textContent = "图片已从 " + img.width + " × " + img.height + " 调整为 " + width + " × " + height;
+        $("resize-result").classList.add("show");
+      } catch (err) { showToast(err.message || "处理失败"); }
+      finally { button.disabled = false; setLoading("resize-loading", false); }
+    });
+
+    $("resize-download").addEventListener("click", () => {
+      if (state.resizeBlob && state.resizeFile) downloadBlob(state.resizeBlob, baseName(state.resizeFile.name) + "-resized." + extensionFromType(state.resizeBlob.type));
+    });
+
+    $("batch-clear").addEventListener("click", () => {
+      state.batchFiles = [];
+      state.batchResults = [];
+      $("batch-file").value = "";
+      $("batch-btn").disabled = true;
+      $("batch-clear").disabled = true;
+      $("batch-result").classList.remove("show");
+      $("batch-list").innerHTML = "";
+    });
+
+    $("batch-btn").addEventListener("click", async () => {
+      if (!state.batchFiles.length) return;
+      $("batch-btn").disabled = true;
+      $("batch-clear").disabled = true;
+      setLoading("batch-loading", true, "正在准备…");
+      state.batchResults = [];
+      $("batch-list").innerHTML = "";
+      let totalBefore = 0, totalAfter = 0;
+      try {
+        for (let i = 0; i < state.batchFiles.length; i++) {
+          const file = state.batchFiles[i];
+          setLoading("batch-loading", true, "正在处理 " + (i + 1) + " / " + state.batchFiles.length);
+          const img = await loadImage(file);
+          const outputType = file.type === "image/png" ? "image/png" : file.type === "image/webp" ? "image/webp" : "image/jpeg";
+          const blob = await canvasBlob(img, img.width, img.height, outputType, Number($("batch-quality").value) / 100);
+          state.batchResults.push({ file, blob, width: img.width, height: img.height });
+          totalBefore += file.size;
+          totalAfter += blob.size;
+          const card = document.createElement("div");
+          card.className = "batch-card";
+          const thumb = document.createElement("img");
+          thumb.src = URL.createObjectURL(blob);
+          thumb.alt = file.name;
+          const content = document.createElement("div");
+          const filename = document.createElement("div");
+          filename.className = "filename";
+          filename.title = file.name;
+          filename.textContent = file.name;
+          const small = document.createElement("div");
+          small.className = "small";
+          small.textContent = formatBytes(file.size) + " → " + formatBytes(blob.size) + " · " + img.width + "×" + img.height;
+          const dl = document.createElement("button");
+          dl.className = "download-mini";
+          dl.type = "button";
+          dl.textContent = "下载此图片";
+          dl.addEventListener("click", () => downloadBlob(blob, baseName(file.name) + "-compressed." + extensionFromType(blob.type)));
+          content.append(filename, small, dl);
+          card.append(thumb, content);
+          $("batch-list").appendChild(card);
+        }
+        const saved = Math.max(0, (1 - totalAfter / totalBefore) * 100);
+        $("batch-summary").textContent = "已处理 " + state.batchResults.length + " 张图片，总大小 " + formatBytes(totalBefore) + " → " + formatBytes(totalAfter);
+        $("batch-rate").textContent = saved > 0 ? "节省 " + saved.toFixed(1) + "%" : "已完成";
+        $("batch-result").classList.add("show");
+      } catch (err) { showToast(err.message || "批量处理失败"); }
+      finally { $("batch-btn").disabled = false; $("batch-clear").disabled = false; setLoading("batch-loading", false); }
+    });
+
+    $("batch-download").addEventListener("click", async () => {
+      if (!state.batchResults.length) return;
+      if (!window.JSZip) { showToast("ZIP 组件加载失败，请刷新页面重试"); return; }
+      const zip = new JSZip();
+      state.batchResults.forEach(({ file, blob }) => {
+        zip.file(baseName(file.name) + "-compressed." + extensionFromType(blob.type), blob);
+      });
+      const button = $("batch-download");
+      button.disabled = true;
+      button.textContent = "正在打包…";
+      try {
+        const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 6 } });
+        downloadBlob(blob, "图工具箱-批量压缩.zip");
+      } catch (err) { showToast("打包失败，请重试"); }
+      finally { button.disabled = false; button.textContent = "下载全部 ZIP"; }
+    });
+  </script>
+</body>
+</html>
